@@ -1,0 +1,8 @@
+= Team Azito Vote API Document
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+
+include::user.adoc[]
