@@ -1,5 +1,6 @@
 package ceos.vote.user.application;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Long createUser(UserCreateRequest request) {
@@ -23,6 +25,6 @@ public class UserService {
         if (userRepository.existsByEmail(request.email())) {
             throw new AlreadyExistException(ExceptionCode.ALREADY_EXIST_EMAIL);
         }
-        return userRepository.save(request.toEntity()).getId();
+        return userRepository.save(request.toEntity(passwordEncoder)).getId();
     }
 }
