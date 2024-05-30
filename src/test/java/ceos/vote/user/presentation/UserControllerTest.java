@@ -2,12 +2,6 @@ package ceos.vote.user.presentation;
 
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,6 +23,7 @@ import ceos.vote.config.SecurityConfig;
 import ceos.vote.user.application.UserService;
 import ceos.vote.user.exception.AlreadyExistException;
 import ceos.vote.user.fixture.UserFixture;
+import ceos.vote.user.presentation.docs.UserDocs;
 import ceos.vote.user.presentation.dto.request.UserCreateRequest;
 
 @WebMvcTest(UserController.class)
@@ -65,17 +60,7 @@ class UserControllerTest {
                         .content(om.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andDo(print())
-                .andDo(document("user/create/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("username").description("아이디"),
-                                fieldWithPath("password").description("비밀번호"),
-                                fieldWithPath("email").description("이메일"),
-                                fieldWithPath("name").description("이름"),
-                                fieldWithPath("part").description("파트"),
-                                fieldWithPath("teamName").description("팀 이름")
-                        )));
+                .andDo(UserDocs.getDocument("user/create/success"));
     }
 
     @Test
@@ -100,17 +85,7 @@ class UserControllerTest {
                         .content(om.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("user/create/fail/username",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("username").description("아이디"),
-                                fieldWithPath("password").description("비밀번호"),
-                                fieldWithPath("email").description("이메일"),
-                                fieldWithPath("name").description("이름"),
-                                fieldWithPath("part").description("파트"),
-                                fieldWithPath("teamName").description("팀 이름")
-                        )));
+                .andDo(UserDocs.getDocument("user/create/fail/username"));
     }
 
     @Test
@@ -135,16 +110,6 @@ class UserControllerTest {
                         .content(om.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("user/create/fail/email",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("username").description("아이디"),
-                                fieldWithPath("password").description("비밀번호"),
-                                fieldWithPath("email").description("이메일"),
-                                fieldWithPath("name").description("이름"),
-                                fieldWithPath("part").description("파트"),
-                                fieldWithPath("teamName").description("팀 이름")
-                        )));
+                .andDo(UserDocs.getDocument("user/create/fail/email"));
     }
 }
