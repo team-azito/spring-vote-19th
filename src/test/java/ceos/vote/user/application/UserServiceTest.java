@@ -74,7 +74,7 @@ class UserServiceTest {
         // when & then
         assertThatThrownBy(() -> userService.createUser(request))
             .isInstanceOf(AlreadyExistException.class)
-            .hasMessage(ExceptionCode.ALREADY_EXIST_USERNAME.getMessage());
+            .hasMessage(ExceptionCode.ALREADY_EXIST_USERNAME_EXCEPTION.getMessage());
     }
 
     @Test
@@ -96,6 +96,6 @@ class UserServiceTest {
         // when & then
         assertThatThrownBy(() -> userService.createUser(request))
                 .isInstanceOf(AlreadyExistException.class)
-                .hasMessage(ExceptionCode.ALREADY_EXIST_EMAIL.getMessage());
+                .hasMessage(ExceptionCode.ALREADY_EXIST_EMAIL_EXCEPTION.getMessage());
     }
 }

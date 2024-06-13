@@ -74,7 +74,7 @@ class UserApiTest extends ApiTest {
         assertSoftly(
                 softly -> {
                     softly.assertThat(회원_가입_응답.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-                    softly.assertThat(회원_가입_응답.body().asString()).isEqualTo(ExceptionCode.ALREADY_EXIST_USERNAME.getMessage());
+                    softly.assertThat(회원_가입_응답.body().asString()).isEqualTo(ExceptionCode.ALREADY_EXIST_USERNAME_EXCEPTION.getMessage());
                 }
         );
     }
@@ -105,7 +105,7 @@ class UserApiTest extends ApiTest {
         assertSoftly(
                 softly -> {
                     softly.assertThat(회원_가입_응답.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-                    softly.assertThat(회원_가입_응답.body().asString()).isEqualTo(ExceptionCode.ALREADY_EXIST_EMAIL.getMessage());
+                    softly.assertThat(회원_가입_응답.body().asString()).isEqualTo(ExceptionCode.ALREADY_EXIST_EMAIL_EXCEPTION.getMessage());
                 }
         );
     }

@@ -16,3 +16,7 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         format_sql: true
+
+  jwt:
+    secret: c2f9ccb0ef8b8adf427189b3b763259690c16adc1636407895ca4be596d95bc9
+    expired: 86400000
