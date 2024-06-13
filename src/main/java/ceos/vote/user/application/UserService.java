@@ -20,10 +20,10 @@ public class UserService {
     @Transactional
     public Long createUser(UserCreateRequest request) {
         if (userRepository.existsByUsername(request.username())) {
-            throw new AlreadyExistException(ExceptionCode.ALREADY_EXIST_USERNAME);
+            throw new AlreadyExistException(ExceptionCode.ALREADY_EXIST_USERNAME_EXCEPTION);
         }
         if (userRepository.existsByEmail(request.email())) {
-            throw new AlreadyExistException(ExceptionCode.ALREADY_EXIST_EMAIL);
+            throw new AlreadyExistException(ExceptionCode.ALREADY_EXIST_EMAIL_EXCEPTION);
         }
         return userRepository.save(request.toEntity(passwordEncoder)).getId();
     }
