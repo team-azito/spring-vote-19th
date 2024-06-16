@@ -51,7 +51,7 @@ jobs:
           key: ${{ secrets.AWS_PASSWORD }}
           port: 22
           script: |
-            sudo docker rm -f $(docker ps -qa)
+            sudo docker rm -f $(sudo docker ps -qa)
             sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/vote
             sudo docker run -d -p 8080:8080 --env-file .env ${{ secrets.DOCKER_USERNAME }}/vote
