@@ -20,7 +20,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ceos.vote.common.exception.ExceptionCode;
 import ceos.vote.config.SecurityConfig;
+import ceos.vote.jwt.JwtUtil;
 import ceos.vote.user.application.UserService;
+import ceos.vote.user.domain.repository.UserRepository;
 import ceos.vote.user.exception.AlreadyExistException;
 import ceos.vote.user.fixture.UserFixture;
 import ceos.vote.user.presentation.docs.UserDocs;
@@ -36,6 +38,12 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper om;
+
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @MockBean
     private UserService userService;
@@ -68,7 +76,7 @@ class UserControllerTest {
     void testSignUp_Fail_WhenDuplicateUsername() throws Exception {
         // given
         given(userService.createUser(any()))
-                .willThrow(new AlreadyExistException(ExceptionCode.ALREADY_EXIST_USERNAME));
+                .willThrow(new AlreadyExistException(ExceptionCode.ALREADY_EXIST_USERNAME_EXCEPTION));
 
         // when & then
         UserCreateRequest request = UserCreateRequest.builder()
@@ -93,7 +101,7 @@ class UserControllerTest {
     void testSignUp_Fail_WhenDuplicateEmail() throws Exception {
         // given
         given(userService.createUser(any()))
-                .willThrow(new AlreadyExistException(ExceptionCode.ALREADY_EXIST_EMAIL));
+                .willThrow(new AlreadyExistException(ExceptionCode.ALREADY_EXIST_EMAIL_EXCEPTION));
 
         // when & then
         UserCreateRequest request = UserCreateRequest.builder()

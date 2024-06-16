@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import ceos.vote.user.domain.Part;
 import ceos.vote.user.domain.TeamName;
 import ceos.vote.user.domain.User;
@@ -26,10 +28,10 @@ public record UserCreateRequest(@NotBlank(message = "아이디는 필수 입력 
                                 @NotBlank(message = "팀 이름은 필수 입력 값입니다.")
                                 String teamName) {
 
-    public User toEntity() {
+    public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .username(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .email(email)
                 .name(name)
                 .part(Part.findPart(part))
