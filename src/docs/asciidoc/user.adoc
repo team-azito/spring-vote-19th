@@ -1,0 +1,10 @@
+== User API
+=== 회원 가입 API
+==== 성공
+operation::user/create/success[snippets='http-request,request-fields,http-response']]
+
+==== 실패 - 아이디가 중복되는 경우
+operation::user/create/fail/username[snippets='http-response']
+
+==== 실패 - 이메일이 중복되는 경우
+operation::user/create/fail/email[snippets='http-response']
