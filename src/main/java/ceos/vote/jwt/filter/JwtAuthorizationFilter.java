@@ -32,9 +32,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("Authorization").replace("Bearer ", "");
+        String accessToken = request.getHeader("Authorization");
 
         jwtUtil.validateJwt(accessToken);
+
+        accessToken = accessToken.replace("Bearer ", "");
 
         setAuthentication(accessToken);
 
@@ -55,7 +57,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Authentication authToken =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), null, List.of(new SimpleGrantedAuthority(null)));
+                new UsernamePasswordAuthenticationToken(user.getUsername(), null, null);
+                //new UsernamePasswordAuthenticationToken(user.getUsername(), null, List.of(new SimpleGrantedAuthority(null)));
+
         SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }
