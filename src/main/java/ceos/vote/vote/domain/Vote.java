@@ -31,5 +31,5 @@ public class Vote extends BaseTimeEntity {
 
     @JoinColumn(name = "vote_user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    protected User user;
 }
