@@ -1,7 +1,14 @@
 package ceos.vote.vote.application;
 
+import static ceos.vote.common.exception.ExceptionCode.ALREADY_VOTED;
+import static ceos.vote.common.exception.ExceptionCode.INVALID_PART_LEADER;
+import static ceos.vote.common.exception.ExceptionCode.INVALID_USERNAME;
+import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_DIFFERENT_PART;
+import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_SAME_TEAM;
+
 import org.springframework.stereotype.Service;
 
+import ceos.vote.common.exception.BadRequestException;
 import ceos.vote.user.domain.Part;
 import ceos.vote.user.domain.User;
 import ceos.vote.user.domain.repository.UserRepository;
@@ -24,20 +31,20 @@ public class VoteService {
 
     public void votePartLeader(PartLeaderVoteCreateRequest request, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new IllegalArgumentException("username not exist")
+                () -> new BadRequestException(INVALID_USERNAME)
         );
 
         User partLeader = userRepository.findByUsername(request.getPartLeaderUsername())
                 .orElseThrow(
-                        () -> new IllegalArgumentException("part leader username not exist")
+                        () -> new BadRequestException(INVALID_PART_LEADER)
                 );
 
         if (voteRepository.existsPartLeaderVotesByUsername(username)) {
-            throw new IllegalArgumentException("already voted");
+            throw new BadRequestException(ALREADY_VOTED);
         }
 
         if (user.getPart() != partLeader.getPart()) {
-            throw new IllegalArgumentException("different part");
+            throw new BadRequestException(VOTE_FOR_DIFFERENT_PART);
         }
 
         PartLeaderVote vote = new PartLeaderVote(partLeader, user);
@@ -46,17 +53,17 @@ public class VoteService {
 
     public void voteTeam(DemodayVoteCreateRequest request, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new IllegalArgumentException("username not exist")
+                () -> new BadRequestException(INVALID_USERNAME)
         );
 
         System.out.println(username);
 
         if (voteRepository.existsDemodayVotesByUsername(username)) {
-            throw new IllegalArgumentException("already voted");
+            throw new BadRequestException(ALREADY_VOTED);
         }
 
         if (user.getTeamName() == request.getTeamName()) {
-            throw new IllegalArgumentException("same team");
+            throw new BadRequestException(VOTE_FOR_SAME_TEAM);
         }
 
         DemoDayVote vote = new DemoDayVote(request.getTeamName(), user);
