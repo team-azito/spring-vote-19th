@@ -5,13 +5,16 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ceos.vote.user.domain.Part;
 import ceos.vote.vote.application.VoteService;
 import ceos.vote.vote.application.dto.response.DemodayVoteResponse;
+import ceos.vote.vote.application.dto.response.PartLeaderVoteResponse;
 import ceos.vote.vote.presentation.dto.request.DemodayVoteCreateRequest;
 import ceos.vote.vote.presentation.dto.request.PartLeaderVoteCreateRequest;
 import java.net.URI;
@@ -27,7 +30,7 @@ public class VoteController {
 
     @GetMapping("/demoday/result")
     public ResponseEntity<List<DemodayVoteResponse>> getDemodayVotes() {
-        List<DemodayVoteResponse> responses = voteService.getDemoDayVotes();
+        List<DemodayVoteResponse> responses = voteService.getDemoDayVoteResult();
         return ResponseEntity.ok().body(responses);
     }
 
@@ -38,9 +41,11 @@ public class VoteController {
         return ResponseEntity.created(URI.create("")).build();
     }
 
-    @GetMapping("/part-leader")
-    public ResponseEntity<Void> getPartLeaderVotes() {
-        return ResponseEntity.ok().build();
+    @GetMapping("/part-leader/result/{part}")
+    public ResponseEntity<List<PartLeaderVoteResponse>> getPartLeaderVotes(@PathVariable("part")Part part) {
+        List<PartLeaderVoteResponse> responses = voteService.getPartLeaderVoteResult(
+                part);
+        return ResponseEntity.ok().body(responses);
     }
 
     @PostMapping("/part-leader")

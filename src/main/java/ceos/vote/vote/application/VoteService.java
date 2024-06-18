@@ -2,9 +2,11 @@ package ceos.vote.vote.application;
 
 import org.springframework.stereotype.Service;
 
+import ceos.vote.user.domain.Part;
 import ceos.vote.user.domain.User;
 import ceos.vote.user.domain.repository.UserRepository;
 import ceos.vote.vote.application.dto.response.DemodayVoteResponse;
+import ceos.vote.vote.application.dto.response.PartLeaderVoteResponse;
 import ceos.vote.vote.domain.DemoDayVote;
 import ceos.vote.vote.domain.PartLeaderVote;
 import ceos.vote.vote.domain.repository.VoteRepository;
@@ -41,7 +43,11 @@ public class VoteService {
         voteRepository.save(vote);
     }
 
-    public List<DemodayVoteResponse> getDemoDayVotes() {
+    public List<DemodayVoteResponse> getDemoDayVoteResult() {
         return voteRepository.getDemodayVoteCount();
+    }
+
+    public List<PartLeaderVoteResponse> getPartLeaderVoteResult(Part part) {
+        return voteRepository.getPartLeaderVoteCount(part);
     }
 }
