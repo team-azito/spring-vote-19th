@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ceos.vote.vote.application.VoteService;
 import ceos.vote.vote.presentation.dto.request.DemodayVoteCreateRequest;
 import ceos.vote.vote.presentation.dto.request.PartLeaderVoteCreateRequest;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,9 +29,10 @@ public class VoteController {
     }
 
     @PostMapping("/demoday")
-    public void voteForDemoday(@RequestBody @Valid DemodayVoteCreateRequest request, Authentication authentication) {
+    public ResponseEntity<Void> voteForDemoday(@RequestBody @Valid DemodayVoteCreateRequest request, Authentication authentication) {
         String username = authentication.getPrincipal().toString();
         voteService.voteTeam(request, username);
+        return ResponseEntity.created(URI.create("")).build();
     }
 
     @GetMapping("/part-leader")
@@ -39,8 +41,10 @@ public class VoteController {
     }
 
     @PostMapping("/part-leader")
-    public void voteForPartLeader(@RequestBody PartLeaderVoteCreateRequest request) {
-        System.out.println(request);
+    public ResponseEntity<Void> voteForPartLeader(@RequestBody @Valid PartLeaderVoteCreateRequest request, Authentication authentication) {
+        String username = authentication.getPrincipal().toString();
+        voteService.votePartLeader(request, username);
+        return ResponseEntity.created(URI.create("")).build();
     }
 
 }
