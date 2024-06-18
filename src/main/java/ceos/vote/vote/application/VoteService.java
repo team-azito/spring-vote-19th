@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 
 import ceos.vote.user.domain.User;
 import ceos.vote.user.domain.repository.UserRepository;
+import ceos.vote.vote.application.dto.response.DemodayVoteResponse;
 import ceos.vote.vote.domain.DemoDayVote;
 import ceos.vote.vote.domain.PartLeaderVote;
 import ceos.vote.vote.domain.repository.VoteRepository;
 import ceos.vote.vote.presentation.dto.request.DemodayVoteCreateRequest;
 import ceos.vote.vote.presentation.dto.request.PartLeaderVoteCreateRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -37,5 +39,9 @@ public class VoteService {
         );
         DemoDayVote vote = new DemoDayVote(request.getTeamName(), user);
         voteRepository.save(vote);
+    }
+
+    public List<DemodayVoteResponse> getDemoDayVotes() {
+        return voteRepository.getDemodayVoteCount();
     }
 }
