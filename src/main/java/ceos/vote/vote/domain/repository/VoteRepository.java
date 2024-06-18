@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import ceos.vote.user.domain.Part;
+import ceos.vote.user.domain.User;
 import ceos.vote.vote.application.dto.response.DemodayVoteResponse;
 import ceos.vote.vote.application.dto.response.PartLeaderVoteResponse;
 import ceos.vote.vote.domain.Vote;
@@ -25,7 +26,19 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
             + "from PartLeaderVote v "
             + "where v.partLeader.part = :part "
             + "group by v.partLeader "
-            + "order by count(*)"
+            + "order by count(*) desc"
     )
     List<PartLeaderVoteResponse> getPartLeaderVoteCount(@Param("part") Part part);
+
+    @Query(value =
+            "select count(1) > 0 "
+            + "from DemoDayVote v "
+            + "where v.user.username = :username")
+    boolean existsDemodayVotesByUsername(@Param("username") String username);
+
+    @Query(value =
+            "select count(1) > 0 "
+            + "from PartLeaderVote v "
+            + "where v.user.username = :username ")
+    boolean existsPartLeaderVotesByUsername(@Param("username") String username);
 }

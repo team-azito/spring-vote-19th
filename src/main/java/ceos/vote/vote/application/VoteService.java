@@ -31,6 +31,15 @@ public class VoteService {
                 .orElseThrow(
                         () -> new IllegalArgumentException("part leader username not exist")
                 );
+
+        if (voteRepository.existsPartLeaderVotesByUsername(username)) {
+            throw new IllegalArgumentException("already voted");
+        }
+
+        if (user.getPart() != partLeader.getPart()) {
+            throw new IllegalArgumentException("different part");
+        }
+
         PartLeaderVote vote = new PartLeaderVote(partLeader, user);
         voteRepository.save(vote);
     }
@@ -39,6 +48,17 @@ public class VoteService {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("username not exist")
         );
+
+        System.out.println(username);
+
+        if (voteRepository.existsDemodayVotesByUsername(username)) {
+            throw new IllegalArgumentException("already voted");
+        }
+
+        if (user.getTeamName() == request.getTeamName()) {
+            throw new IllegalArgumentException("same team");
+        }
+
         DemoDayVote vote = new DemoDayVote(request.getTeamName(), user);
         voteRepository.save(vote);
     }
