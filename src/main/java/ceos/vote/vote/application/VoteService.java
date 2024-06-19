@@ -29,7 +29,7 @@ public class VoteService {
     final private VoteRepository voteRepository;
     final private UserRepository userRepository;
 
-    public void votePartLeader(PartLeaderVoteCreateRequest request, String username) {
+    public PartLeaderVote votePartLeader(PartLeaderVoteCreateRequest request, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new BadRequestException(INVALID_USERNAME)
         );
@@ -48,10 +48,10 @@ public class VoteService {
         }
 
         PartLeaderVote vote = new PartLeaderVote(partLeader, user);
-        voteRepository.save(vote);
+        return voteRepository.save(vote);
     }
 
-    public void voteTeam(DemodayVoteCreateRequest request, String username) {
+    public DemoDayVote voteTeam(DemodayVoteCreateRequest request, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new BadRequestException(INVALID_USERNAME)
         );
@@ -67,7 +67,7 @@ public class VoteService {
         }
 
         DemoDayVote vote = new DemoDayVote(request.getTeamName(), user);
-        voteRepository.save(vote);
+        return voteRepository.save(vote);
     }
 
     public List<DemodayVoteResponse> getDemoDayVoteResult() {

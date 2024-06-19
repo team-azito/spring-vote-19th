@@ -51,4 +51,24 @@ public class VoteDocs {
                 preprocessResponse(prettyPrint())
         );
     }
+
+    public static RestDocumentationResultHandler voteDemodayDocument(String identifier) {
+        return document(identifier,
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                        fieldWithPath("teamName").description("투표할 팀 이름. [AZITO, BEAT_BUDDY, BULDOG, CUPPLE_LOG, TIG] 중 하나")
+                )
+        );
+    }
+
+    public static RestDocumentationResultHandler votePartLeaderDocument(String identifier) {
+        return document(identifier,
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                        fieldWithPath("partLeaderUsername").description("파트장으로 투표할 유저의 username. 같은 파트 사람이어야 한다.")
+                )
+        );
+    }
 }

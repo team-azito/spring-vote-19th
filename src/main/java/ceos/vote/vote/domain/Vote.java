@@ -15,10 +15,12 @@ import jakarta.persistence.Table;
 import ceos.vote.common.domain.BaseTimeEntity;
 import ceos.vote.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "votes")
+@Getter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorColumn(name = "vote_type")
