@@ -1,0 +1,18 @@
+== Vote API
+=== 투표 결과 조회
+==== 데모데이
+===== 성공
+operation::vote/read/demoday/success[snippets='http-request,http-response,response-fields']
+
+==== 파트장
+===== 성공
+operation::vote/read/part-leader/success[snippets='http-request,query-parameters,http-response']
+
+===== 실패 - 존재하지 않는 파트 조회
+operation::vote/read/part-leader/fail[snippets='http-request,http-response']
+
+=== 투표 API
+==== 데모데이
+===== 성공
+==== 파트장
+===== 성공

@@ -27,7 +27,7 @@ public class Vote extends BaseTimeEntity {
     @Id
     @Column(name = "vote_id")
     @GeneratedValue
-    private long id;
+    protected long id;
 
     @JoinColumn(name = "vote_user_id")
     @ManyToOne(fetch = FetchType.LAZY)
