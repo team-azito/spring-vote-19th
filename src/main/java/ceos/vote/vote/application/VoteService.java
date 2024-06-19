@@ -56,8 +56,6 @@ public class VoteService {
                 () -> new BadRequestException(INVALID_USERNAME)
         );
 
-        System.out.println(username);
-
         if (voteRepository.existsDemodayVotesByUsername(username)) {
             throw new BadRequestException(ALREADY_VOTED);
         }
