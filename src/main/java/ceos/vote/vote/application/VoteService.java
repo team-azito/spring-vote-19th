@@ -34,7 +34,7 @@ public class VoteService {
                 () -> new BadRequestException(INVALID_USERNAME)
         );
 
-        User partLeader = userRepository.findByUsername(request.getPartLeaderUsername())
+        User partLeader = userRepository.findByUsername(request.partLeaderUsername())
                 .orElseThrow(
                         () -> new BadRequestException(INVALID_PART_LEADER)
                 );
@@ -60,11 +60,11 @@ public class VoteService {
             throw new BadRequestException(ALREADY_VOTED);
         }
 
-        if (user.isSameTeam(request.getTeamName())) {
+        if (user.isSameTeam(request.teamName())) {
             throw new BadRequestException(VOTE_FOR_SAME_TEAM);
         }
 
-        DemoDayVote vote = new DemoDayVote(request.getTeamName(), user);
+        DemoDayVote vote = new DemoDayVote(request.teamName(), user);
         return voteRepository.save(vote);
     }
 

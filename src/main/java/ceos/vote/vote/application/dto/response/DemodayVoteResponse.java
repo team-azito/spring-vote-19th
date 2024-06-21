@@ -8,13 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
-@Getter
-@AllArgsConstructor
-public class DemodayVoteResponse {
 
-    private TeamName teamName;
-    private long voteCount;
-}
+public record DemodayVoteResponse(
+        TeamName teamName,
+        long voteCount
+) {}

@@ -1,5 +1,6 @@
 package ceos.vote.vote.presentation.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import ceos.vote.user.domain.User;
@@ -9,11 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class PartLeaderVoteCreateRequest {
-    @NotNull
-    private String partLeaderUsername;
-}
+public record PartLeaderVoteCreateRequest (
+        @NotBlank(message = "파트장 username은 필수입니다.") String partLeaderUsername
+) {}
