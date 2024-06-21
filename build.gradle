@@ -86,7 +86,7 @@ tasks.register('copyDocument', Copy) {
 }
 
 build {
-	dependsOn copyDocument
+	dependsOn copyYML
 }
 
 bootJar {
@@ -97,6 +97,7 @@ bootJar {
 }
 
 task copyYML(type: Copy){
+	dependsOn copyDocument
 	copy{
 		from './submodule'
 		include "*.yml"
