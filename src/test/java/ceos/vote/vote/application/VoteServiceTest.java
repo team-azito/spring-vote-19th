@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.DisplayName;
@@ -47,11 +46,11 @@ public class VoteServiceTest {
     public void testVoteDemoday_Success() {
         // given
         DemodayVoteCreateRequest request = new DemodayVoteCreateRequest(DEMO_DAY_VOTE_1.getTeamName());
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(DEMO_DAY_VOTE_1.getUser()));
+        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(DEMO_DAY_VOTE_1.getVoteUser()));
         given(voteRepository.save(any(DemoDayVote.class))).willReturn(DEMO_DAY_VOTE_1);
 
         // when
-        DemoDayVote vote = voteService.voteTeam(request, DEMO_DAY_VOTE_1.getUser().getUsername());
+        DemoDayVote vote = voteService.voteTeam(request, DEMO_DAY_VOTE_1.getVoteUser().getUsername());
 
         // then
         assertThat(vote).usingRecursiveComparison().isEqualTo(DEMO_DAY_VOTE_1);
@@ -62,10 +61,10 @@ public class VoteServiceTest {
     public void testVoteDemoday_Fail_VoteForSameTeam() {
         // given
         DemodayVoteCreateRequest request = new DemodayVoteCreateRequest(DEMO_DAY_VOTE_FOR_MY_TEAM.getTeamName());
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(DEMO_DAY_VOTE_FOR_MY_TEAM.getUser()));
+        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(DEMO_DAY_VOTE_FOR_MY_TEAM.getVoteUser()));
 
         // when & then
-        assertThatThrownBy(() -> voteService.voteTeam(request, DEMO_DAY_VOTE_FOR_MY_TEAM.getUser().getUsername()))
+        assertThatThrownBy(() -> voteService.voteTeam(request, DEMO_DAY_VOTE_FOR_MY_TEAM.getVoteUser().getUsername()))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(ExceptionCode.VOTE_FOR_SAME_TEAM.getMessage());
     }
@@ -75,7 +74,7 @@ public class VoteServiceTest {
     public void testVotePartLeader_Success() {
         // given
         PartLeaderVoteCreateRequest request = new PartLeaderVoteCreateRequest(VoteFixture.BACKEND_PART_LEADER_VOTE.getPartLeader().getUsername());
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(BACKEND_PART_LEADER_VOTE.getUser()));
+        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(BACKEND_PART_LEADER_VOTE.getVoteUser()));
         given(voteRepository.save(any(PartLeaderVote.class))).willReturn(BACKEND_PART_LEADER_VOTE);
 
         // when
@@ -92,8 +91,8 @@ public class VoteServiceTest {
         String frontendUsername = FRONTEND_PART_LEADER_VOTE.getPartLeader().getUsername();
         String backendUsername = BACKEND_PART_LEADER_VOTE.getPartLeader().getUsername();
         PartLeaderVoteCreateRequest frontendPartLeaderRequest = new PartLeaderVoteCreateRequest(frontendUsername);
-        given(userRepository.findByUsername(frontendUsername)).willReturn(Optional.of(FRONTEND_PART_LEADER_VOTE.getUser()));
-        given(userRepository.findByUsername(backendUsername)).willReturn(Optional.of(BACKEND_PART_LEADER_VOTE.getUser()));
+        given(userRepository.findByUsername(frontendUsername)).willReturn(Optional.of(FRONTEND_PART_LEADER_VOTE.getVoteUser()));
+        given(userRepository.findByUsername(backendUsername)).willReturn(Optional.of(BACKEND_PART_LEADER_VOTE.getVoteUser()));
 
         // when & then
         assertThatThrownBy(() -> voteService.votePartLeader(frontendPartLeaderRequest, backendUsername)).isInstanceOf(

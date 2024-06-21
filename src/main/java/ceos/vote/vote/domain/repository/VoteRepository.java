@@ -33,12 +33,12 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     @Query(value =
             "select count(1) > 0 "
             + "from DemoDayVote v "
-            + "where v.user.username = :username")
+            + "where v.voteUser.username = :username")
     boolean existsDemodayVotesByUsername(@Param("username") String username);
 
     @Query(value =
             "select count(1) > 0 "
             + "from PartLeaderVote v "
-            + "where v.user.username = :username ")
+            + "where v.voteUser.username = :username ")
     boolean existsPartLeaderVotesByUsername(@Param("username") String username);
 }

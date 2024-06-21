@@ -3,16 +3,13 @@ package ceos.vote.vote.presentation;
 import static ceos.vote.common.exception.ExceptionCode.INVALID_JWT;
 import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_DIFFERENT_PART;
 import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_SAME_TEAM;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,7 +44,6 @@ import ceos.vote.vote.fixture.VoteFixture;
 import ceos.vote.vote.presentation.docs.VoteDocs;
 import ceos.vote.vote.presentation.dto.request.DemodayVoteCreateRequest;
 import ceos.vote.vote.presentation.dto.request.PartLeaderVoteCreateRequest;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -158,7 +154,7 @@ public class VoteControllerTest {
         // given
         DemodayVoteCreateRequest request = new DemodayVoteCreateRequest(TeamName.BEAT_BUDDY);
         given(jwtUtil.getUsername(anyString())).willReturn("user");
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(VoteFixture.DEMO_DAY_VOTE_1.getUser()));
+        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(VoteFixture.DEMO_DAY_VOTE_1.getVoteUser()));
 
         // when & then
         mockMvc.perform(post("/api/v1/votes/demoday")
@@ -191,10 +187,10 @@ public class VoteControllerTest {
     @DisplayName("같은 팀이라면 데모데이 투표에 실패한다.")
     void testVoteDemodayWhenVoteForSameTeam_Fail() throws Exception {
         // given
-        String testUsername = VoteFixture.DEMO_DAY_VOTE_1.getUser().getUsername();
+        String testUsername = VoteFixture.DEMO_DAY_VOTE_1.getVoteUser().getUsername();
         DemodayVoteCreateRequest request = new DemodayVoteCreateRequest(TeamName.AZITO);
         given(jwtUtil.getUsername(anyString())).willReturn(testUsername);
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(VoteFixture.DEMO_DAY_VOTE_1.getUser()));
+        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(VoteFixture.DEMO_DAY_VOTE_1.getVoteUser()));
         given(voteService.voteTeam(any(), anyString())).willThrow(new BadRequestException(VOTE_FOR_SAME_TEAM));
 
         // when & then
@@ -214,8 +210,8 @@ public class VoteControllerTest {
         // given
         PartLeaderVote vote = VoteFixture.BACKEND_PART_LEADER_VOTE;
         PartLeaderVoteCreateRequest request = new PartLeaderVoteCreateRequest(vote.getPartLeader().getUsername());
-        given(jwtUtil.getUsername(anyString())).willReturn(vote.getUser().getUsername());
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(vote.getUser()));
+        given(jwtUtil.getUsername(anyString())).willReturn(vote.getVoteUser().getUsername());
+        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(vote.getVoteUser()));
 
         // when & then
         mockMvc.perform(post("/api/v1/votes/part-leader")
@@ -234,8 +230,8 @@ public class VoteControllerTest {
         PartLeaderVote backendVote = VoteFixture.BACKEND_PART_LEADER_VOTE;
         PartLeaderVote frontendVote = VoteFixture.FRONTEND_PART_LEADER_VOTE;
         PartLeaderVoteCreateRequest request = new PartLeaderVoteCreateRequest(frontendVote.getPartLeader().getUsername());
-        given(jwtUtil.getUsername(anyString())).willReturn(backendVote.getUser().getUsername());
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(backendVote.getUser()));
+        given(jwtUtil.getUsername(anyString())).willReturn(backendVote.getVoteUser().getUsername());
+        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(backendVote.getVoteUser()));
         given(voteService.votePartLeader(any(), anyString())).willThrow(new BadRequestException(VOTE_FOR_DIFFERENT_PART));
 
         // when & then

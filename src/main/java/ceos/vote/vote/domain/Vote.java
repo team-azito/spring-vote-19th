@@ -5,6 +5,7 @@ import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -28,10 +29,10 @@ public class Vote extends BaseTimeEntity {
 
     @Id
     @Column(name = "vote_id")
-    @GeneratedValue
-    protected long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     @JoinColumn(name = "vote_user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    protected User user;
+    protected User voteUser;
 }

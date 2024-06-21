@@ -24,13 +24,13 @@ public class PartLeaderVote extends Vote {
 
     public PartLeaderVote(final User partLeader, final User user) {
         this.partLeader = partLeader;
-        this.user = user;
+        this.voteUser = user;
     }
 
     @Builder
     public PartLeaderVote(final long id, final User user, final User partLeader) {
         this.id = id;
-        this.user = user;
+        this.voteUser = user;
         this.partLeader = partLeader;
     }
 }

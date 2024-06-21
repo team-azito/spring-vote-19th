@@ -19,7 +19,7 @@ public class DemoDayVote extends Vote {
     private TeamName teamName;
 
     public DemoDayVote(TeamName teamName, User user) {
-        this.user = user;
+        this.voteUser = user;
         this.teamName = teamName;
     }
 
@@ -27,6 +27,6 @@ public class DemoDayVote extends Vote {
     public DemoDayVote(long id, TeamName teamName, User user) {
         this.id = id;
         this.teamName = teamName;
-        this.user = user;
+        this.voteUser = user;
     }
 }
