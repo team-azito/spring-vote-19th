@@ -35,7 +35,9 @@ jobs:
             ${{ runner.os }}-gradle- 
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: |
+          cp ./submodule/application-prod.yml src/main/resources/application-prod.yml
+          ./gradlew build
 
       - name: Docker login and push
         run: |
