@@ -35,7 +35,9 @@ jobs:
             ${{ runner.os }}-gradle- 
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: |
+          ./gradlew build
+          ls src/main/resources
 
       - name: Docker login and push
         run: |
