@@ -47,4 +47,13 @@ public class User extends BaseTimeEntity {
         this.part = part;
         this.teamName = teamName;
     }
+
+    public boolean isDifferentPart(User user) {
+        return this.part != user.getPart();
+    }
+
+    public boolean isSameTeam(TeamName teamName) {
+        return this.teamName == teamName;
+
+    }
 }

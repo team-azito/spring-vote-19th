@@ -43,7 +43,7 @@ public class VoteService {
             throw new BadRequestException(ALREADY_VOTED);
         }
 
-        if (user.getPart() != partLeader.getPart()) {
+        if (user.isDifferentPart(partLeader)) {
             throw new BadRequestException(VOTE_FOR_DIFFERENT_PART);
         }
 
@@ -60,7 +60,7 @@ public class VoteService {
             throw new BadRequestException(ALREADY_VOTED);
         }
 
-        if (user.getTeamName() == request.getTeamName()) {
+        if (user.isSameTeam(request.getTeamName())) {
             throw new BadRequestException(VOTE_FOR_SAME_TEAM);
         }
 
