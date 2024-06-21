@@ -21,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -62,16 +63,10 @@ public class VoteControllerTest {
     private JwtUtil jwtUtil;
 
     @MockBean
-    private VoteRepository voteRepository;
-
-    @MockBean
     private VoteService voteService;
 
     @MockBean
     private UserRepository userRepository;
-
-    @MockBean
-    private UserService userService;
 
     @Test
     @DisplayName("데모데이 투표 결과 조회에 성공한다.")
@@ -195,7 +190,7 @@ public class VoteControllerTest {
 
         // when & then
         mockMvc.perform(post("/api/v1/votes/demoday")
-                        .header("Authorization", "Bearer abcd")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer abcd")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(om.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())

@@ -95,8 +95,8 @@ public class VoteServiceTest {
         given(userRepository.findByUsername(backendUsername)).willReturn(Optional.of(BACKEND_PART_LEADER_VOTE.getVoteUser()));
 
         // when & then
-        assertThatThrownBy(() -> voteService.votePartLeader(frontendPartLeaderRequest, backendUsername)).isInstanceOf(
-                BadRequestException.class)
+        assertThatThrownBy(() -> voteService.votePartLeader(frontendPartLeaderRequest, backendUsername))
+                .isInstanceOf(BadRequestException.class)
                 .hasMessage(ExceptionCode.VOTE_FOR_DIFFERENT_PART.getMessage());
     }
 }
