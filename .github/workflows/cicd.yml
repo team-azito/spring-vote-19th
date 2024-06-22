@@ -17,6 +17,8 @@ jobs:
         with:
           token: ${{secrets.ACTION_TOKEN}}
           submodules: true
+
+      - name: Submodule Update
         run: |
           git pull --recurse-submodules
           git submodule update --remote --recursive
