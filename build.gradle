@@ -104,3 +104,7 @@ task copyYML(type: Copy){
 build {
 	dependsOn copyYML
 }
+
+jar {
+	enabled = false
+}
