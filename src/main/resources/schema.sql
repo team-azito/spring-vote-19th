@@ -1,9 +1,5 @@
--- 테이블이 존재하면 삭제
-DROP TABLE IF EXISTS votes CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
-
 -- users 테이블 생성
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
    part TINYINT,
    team_name TINYINT,
    created_at TIMESTAMP(6),
@@ -19,7 +15,7 @@ CREATE TABLE users (
 );
 
 -- votes 테이블 생성
-CREATE TABLE votes (
+CREATE TABLE IF NOT EXISTS votes (
    team_name TINYINT,
    created_at TIMESTAMP(6),
    part_leader_id BIGINT,
