@@ -41,6 +41,7 @@ jobs:
         run: |
           ./gradlew build
           ls src/main/resources
+          cat src/main/resources/application-prod.yml
 
       - name: Docker login and push
         run: |
