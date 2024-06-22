@@ -85,6 +85,13 @@ tasks.register('copyDocument', Copy) {
 	into file("src/main/resources/static/docs")
 }
 
+bootJar {
+	dependsOn asciidoctor
+	from ("${asciidoctor.outputDir}") {
+		into 'static/docs'
+	}
+}
+
 task copyYML(type: Copy){
 	dependsOn copyDocument
 	copy{
@@ -98,9 +105,6 @@ build {
 	dependsOn copyYML
 }
 
-bootJar {
-	dependsOn asciidoctor
-	from ("${asciidoctor.outputDir}") {
-		into 'static/docs'
-	}
+jar {
+	enabled = false
 }
