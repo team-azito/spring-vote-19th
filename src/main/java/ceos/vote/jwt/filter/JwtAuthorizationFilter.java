@@ -2,7 +2,6 @@ package ceos.vote.jwt.filter;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -45,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String[] excludePath = {"/api/v1/users", "/login", "/api/v1/votes/demoday/result", "/api/v1/votes/part-leader/result"};
+        String[] excludePath = {"/api/v1/users", "/login", "/api/v1/votes/demoday/result", "/api/v1/votes/part-leader/result", "/docs"};
         String path = request.getRequestURI();
         return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }
