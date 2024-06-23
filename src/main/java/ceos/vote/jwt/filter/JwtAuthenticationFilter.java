@@ -10,6 +10,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -67,7 +68,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // 토큰 생성
         String access = jwtUtil.createJwt(username, role);
 
-        response.setHeader("Authorization", "Bearer " + access);
+        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + access);
         response.setStatus(OK.value());
         SecurityContextHolder.getContext().setAuthentication(authResult);
     }
