@@ -1,0 +1,26 @@
+== Vote API
+=== 투표 결과 조회
+==== 데모데이
+===== 성공
+operation::vote/read/demoday/success[snippets='http-request,http-response,response-fields']
+
+==== 파트장
+===== 성공
+operation::vote/read/part-leader/success[snippets='http-request,query-parameters,http-response']
+
+===== 실패 - 존재하지 않는 파트 조회
+operation::vote/read/part-leader/fail[snippets='http-request,http-response']
+
+=== 투표 API
+==== 데모데이
+===== 성공
+operation::vote/demoday/success[snippets='http-request,request-fields,http-response']
+===== 실패 - 로그인하지 않고 요청 전송
+operation::vote/demoday/fail/notLoggedIn[snippets='http-request,http-response']
+===== 실패 - 자신 팀에게 투표
+operation::vote/demoday/fail/myTeam[snippets='http-request,http-response']
+==== 파트장
+===== 성공
+operation::vote/part-leader/success[snippets='http-request,request-fields,http-response']
+===== 실패
+operation::vote/part-leader/fail/differentPart[snippets='http-request,http-response']

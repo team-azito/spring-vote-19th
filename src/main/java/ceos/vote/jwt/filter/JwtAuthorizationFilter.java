@@ -2,7 +2,6 @@ package ceos.vote.jwt.filter;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -32,9 +30,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("Authorization").replace("Bearer ", "");
+        String accessToken = request.getHeader("Authorization");
 
         jwtUtil.validateJwt(accessToken);
+
+        accessToken = accessToken.replace("Bearer ", "");
 
         setAuthentication(accessToken);
 
@@ -43,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String[] excludePath = {"/api/v1/users", "/login"};
+        String[] excludePath = {"/api/v1/users", "/login", "/api/v1/votes/demoday/result", "/api/v1/votes/part-leader/result", "/docs"};
         String path = request.getRequestURI();
         return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }
@@ -55,7 +55,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Authentication authToken =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), null, List.of(new SimpleGrantedAuthority(null)));
+                new UsernamePasswordAuthenticationToken(user.getUsername(), null, null);
+                //new UsernamePasswordAuthenticationToken(user.getUsername(), null, List.of(new SimpleGrantedAuthority(null)));
+
         SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }

@@ -2,6 +2,10 @@ spring:
   profiles:
     active: test
 
+  sql:
+    init:
+      mode: never
+
   datasource:
     url: jdbc:h2:mem:vote;MODE=MySQL
     username: sa

@@ -14,6 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{secrets.ACTION_TOKEN}}
+          submodules: true
+
+      - name: Submodule Update
+        run: |
+          git submodule foreach 'git fetch && git checkout main && git pull'
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -35,7 +42,10 @@ jobs:
             ${{ runner.os }}-gradle- 
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: |
+          ./gradlew build
+          ls src/main/resources
+          cat src/main/resources/application-prod.yml
 
       - name: Docker login and push
         run: |
