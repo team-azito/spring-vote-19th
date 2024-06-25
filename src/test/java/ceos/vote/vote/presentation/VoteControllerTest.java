@@ -1,6 +1,9 @@
 package ceos.vote.vote.presentation;
 
-import static ceos.vote.common.exception.ExceptionCode.*;
+import static ceos.vote.common.exception.ExceptionCode.ALREADY_VOTED;
+import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_DIFFERENT_PART;
+import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_SAME_TEAM;
+import static ceos.vote.common.exception.ExceptionCode.INVALID_JWT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -29,7 +32,6 @@ import ceos.vote.common.exception.ExceptionCode;
 import ceos.vote.config.SecurityConfig;
 import ceos.vote.jwt.JwtUtil;
 import ceos.vote.jwt.exception.InvalidJwtException;
-import ceos.vote.user.application.UserService;
 import ceos.vote.user.domain.Part;
 import ceos.vote.user.domain.TeamName;
 import ceos.vote.user.domain.repository.UserRepository;
@@ -37,7 +39,6 @@ import ceos.vote.vote.application.VoteService;
 import ceos.vote.vote.application.dto.response.DemodayVoteResponse;
 import ceos.vote.vote.application.dto.response.PartLeaderVoteResponse;
 import ceos.vote.vote.domain.PartLeaderVote;
-import ceos.vote.vote.domain.repository.VoteRepository;
 import ceos.vote.vote.fixture.VoteFixture;
 import ceos.vote.vote.presentation.docs.VoteDocs;
 import ceos.vote.vote.presentation.dto.request.DemodayVoteCreateRequest;
