@@ -53,9 +53,11 @@ public class SecurityConfig {
                 .sessionManagement((session) ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authenticationManager(authenticationConfiguration),
+                jwtUtil);
+        filter.setFilterProcessesUrl("/api/v1/login");
         http
-                .addFilterAt(new JwtAuthenticationFilter(
-                                authenticationManager(authenticationConfiguration), jwtUtil),
+                .addFilterAt(filter,
                         UsernamePasswordAuthenticationFilter.class);
 
         http

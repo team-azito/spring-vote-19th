@@ -1,0 +1,7 @@
+== Auth API
+=== 로그인한 사용자 정보 조회 API
+==== 성공
+operation::auth-check/success[snippets='http-request,http-response,response-body']
+
+==== 실패 - 로그인하지 않은 경우
+operation::auth-check/fail[snippets='http-response,response-body']

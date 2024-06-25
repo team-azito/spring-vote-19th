@@ -1,9 +1,9 @@
 package ceos.vote.vote.presentation;
 
 import static ceos.vote.common.exception.ExceptionCode.ALREADY_VOTED;
+import static ceos.vote.common.exception.ExceptionCode.INVALID_JWT;
 import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_DIFFERENT_PART;
 import static ceos.vote.common.exception.ExceptionCode.VOTE_FOR_SAME_TEAM;
-import static ceos.vote.common.exception.ExceptionCode.INVALID_JWT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -11,11 +11,14 @@ import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,8 +46,6 @@ import ceos.vote.vote.fixture.VoteFixture;
 import ceos.vote.vote.presentation.docs.VoteDocs;
 import ceos.vote.vote.presentation.dto.request.DemodayVoteCreateRequest;
 import ceos.vote.vote.presentation.dto.request.PartLeaderVoteCreateRequest;
-import java.util.List;
-import java.util.Optional;
 
 @WebMvcTest(VoteController.class)
 @AutoConfigureRestDocs
@@ -73,7 +74,7 @@ public class VoteControllerTest {
         given(voteService.getDemoDayVoteResult()).willReturn(List.of(
                 new DemodayVoteResponse(TeamName.AZITO, 5),
                 new DemodayVoteResponse(TeamName.BEAT_BUDDY, 4),
-                new DemodayVoteResponse(TeamName.BULDOG, 3),
+                new DemodayVoteResponse(TeamName.PETPLATE, 3),
                 new DemodayVoteResponse(TeamName.COUPLE_LOG, 2),
                 new DemodayVoteResponse(TeamName.TIG, 1)
         ));

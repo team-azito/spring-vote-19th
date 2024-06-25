@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 import ceos.vote.common.exception.ExceptionCode;
 import ceos.vote.user.exception.UserException;
+import lombok.Getter;
 
+@Getter
 public enum TeamName {
 
     AZITO("Azito"),
     BEAT_BUDDY("BeatBuddy"),
-    BULDOG("Buldog"),
+    PETPLATE("PetPlate"),
     COUPLE_LOG("Couplelog"),
     TIG("TIG");
 

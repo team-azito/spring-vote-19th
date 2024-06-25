@@ -72,7 +72,7 @@ class JwtAuthenticationFilterTest {
                 .willReturn("example.access.token");
 
         // when & then
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/v1/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(om.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -102,7 +102,7 @@ class JwtAuthenticationFilterTest {
                 .willThrow(new BadCredentialsException("로그인 실패"));
 
         // when & then
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/v1/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(om.writeValueAsString(request)))
                 .andExpect(status().isUnauthorized())
@@ -125,7 +125,7 @@ class JwtAuthenticationFilterTest {
     public void attemptAuthenticationWithInvalidJson() throws Exception {
         String invalidJson = "{\"username\":\"username\", \"password\"}";
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/v1/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidJson))
                 .andExpect(status().isBadRequest())
