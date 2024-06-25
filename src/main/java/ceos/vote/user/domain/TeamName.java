@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 import ceos.vote.common.exception.ExceptionCode;
 import ceos.vote.user.exception.UserException;
+import lombok.Getter;
 
+@Getter
 public enum TeamName {
 
     AZITO("Azito"),

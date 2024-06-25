@@ -15,7 +15,8 @@ public enum ExceptionCode {
     ALREADY_VOTED("이미 투표하였습니다."),
     VOTE_FOR_DIFFERENT_PART("파트장 투표는 다른 파트 사람에게 할 수 없습니다."),
     VOTE_FOR_SAME_TEAM("데모데이 투표는 같은 팀에게 할 수 없습니다."),
-    LOGIN_INFO_PARSING_EXCEPTION("로그인 정보를 읽을 수 없습니다.");
+    LOGIN_INFO_PARSING_EXCEPTION("로그인 정보를 읽을 수 없습니다."),
+    UNAUTHORIZED("로그인이 필요합니다."),;
 
     private final String message;
 

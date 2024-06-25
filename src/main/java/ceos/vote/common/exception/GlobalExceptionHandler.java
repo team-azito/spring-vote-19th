@@ -1,5 +1,6 @@
 package ceos.vote.common.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,6 +17,13 @@ public class GlobalExceptionHandler {
         log.warn("Bad Request Exception: {}", e.getMessage());
         ExceptionResponse response = new ExceptionResponse(e.getMessage());
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    public ResponseEntity<ExceptionResponse> handleUnAuthorizedException(UnAuthorizedException e) {
+        log.warn("UnAuthorized Exception: {}", e.getMessage());
+        ExceptionResponse response = new ExceptionResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
