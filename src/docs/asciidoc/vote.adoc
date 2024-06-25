@@ -12,6 +12,8 @@ operation::vote/read/part-leader/success[snippets='http-request,query-parameters
 operation::vote/read/part-leader/fail[snippets='http-request,http-response']
 
 === 투표 API
+투표는 데모데이 투표, 파트장 투표 모두 중복으로 투표할 수 없습니다.
+
 ==== 데모데이
 ===== 성공
 operation::vote/demoday/success[snippets='http-request,request-fields,http-response']
@@ -19,8 +21,12 @@ operation::vote/demoday/success[snippets='http-request,request-fields,http-respo
 operation::vote/demoday/fail/notLoggedIn[snippets='http-request,http-response']
 ===== 실패 - 자신 팀에게 투표
 operation::vote/demoday/fail/myTeam[snippets='http-request,http-response']
+===== 실패 - 한번 투표한 이후 중복으로 투표 시도
+operation::vote/demoday/fail/duplicated[snippets='http-request,http-response']
 ==== 파트장
 ===== 성공
 operation::vote/part-leader/success[snippets='http-request,request-fields,http-response']
-===== 실패
+===== 실패 - 다른 파트 사람에게 투표
 operation::vote/part-leader/fail/differentPart[snippets='http-request,http-response']
+===== 실패 - 한번 투표한 이후 중복으로 투표 시도
+operation::vote/part-leader/fail/duplicated[snippets='http-request,http-response']
