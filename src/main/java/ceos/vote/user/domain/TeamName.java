@@ -11,7 +11,7 @@ public enum TeamName {
 
     AZITO("Azito"),
     BEAT_BUDDY("BeatBuddy"),
-    BULDOG("Buldog"),
+    PETPLATE("PetPlate"),
     COUPLE_LOG("Couplelog"),
     TIG("TIG");
 
