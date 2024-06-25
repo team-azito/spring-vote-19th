@@ -1,7 +1,9 @@
 package ceos.vote.auth.presentation;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -19,8 +21,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 
 import ceos.vote.auth.presentation.docs.AuthDocs;
+import ceos.vote.common.exception.ExceptionCode;
 import ceos.vote.config.SecurityConfig;
 import ceos.vote.jwt.JwtUtil;
+import ceos.vote.jwt.exception.InvalidJwtException;
 import ceos.vote.user.application.UserService;
 import ceos.vote.user.application.dto.response.UserResponse;
 import ceos.vote.user.domain.repository.UserRepository;
@@ -75,6 +79,10 @@ class AuthControllerTest {
 
     @Test
     void 로그인하지_않은_경우_실패한다() throws Exception {
+        // given
+        willThrow(new InvalidJwtException(ExceptionCode.INVALID_JWT)).given(jwtUtil).validateJwt(any());
+
+        // when & then
         mockMvc.perform(get("/api/v1/auth"))
                 .andExpect(status().isUnauthorized())
                 .andDo(print())
