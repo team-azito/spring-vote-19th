@@ -5,7 +5,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestBody;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseBody;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -14,7 +13,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.queryPar
 
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 
-public class VoteDocs {
+public final class VoteDocs {
 
     private VoteDocs() {}
 
