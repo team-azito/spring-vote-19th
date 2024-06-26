@@ -13,6 +13,7 @@ import ceos.vote.user.domain.User;
 import ceos.vote.user.domain.repository.UserRepository;
 import ceos.vote.user.exception.AlreadyExistException;
 import ceos.vote.user.presentation.dto.request.UserCreateRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -38,5 +39,12 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UnAuthorizedException(UNAUTHORIZED));
         return UserResponse.from(user);
+    }
+
+    public List<UserResponse> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(UserResponse::from)
+                .toList();
     }
 }

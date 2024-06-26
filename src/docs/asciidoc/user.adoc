@@ -18,3 +18,7 @@ operation::login/fail/wrong[snippets='http-response']
 
 ==== 실패 - 요청이 잘못된 경우
 operation::login/fail/invalid-json[snippets='http-response']
+
+=== 유저 조회 API
+==== 성공
+operation::user/get/all[snippets='http-request,http-response,response-fields']
