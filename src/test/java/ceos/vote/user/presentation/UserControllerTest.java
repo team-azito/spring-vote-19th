@@ -2,6 +2,7 @@ package ceos.vote.user.presentation;
 
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,11 +23,14 @@ import ceos.vote.common.exception.ExceptionCode;
 import ceos.vote.config.SecurityConfig;
 import ceos.vote.jwt.JwtUtil;
 import ceos.vote.user.application.UserService;
+import ceos.vote.user.application.dto.response.UserResponse;
 import ceos.vote.user.domain.repository.UserRepository;
 import ceos.vote.user.exception.AlreadyExistException;
 import ceos.vote.user.fixture.UserFixture;
 import ceos.vote.user.presentation.docs.UserDocs;
 import ceos.vote.user.presentation.dto.request.UserCreateRequest;
+import java.util.List;
+import java.util.stream.Stream;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureRestDocs
@@ -119,5 +123,21 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(UserDocs.getDocument("user/create/fail/email"));
+    }
+
+    @Test
+    @DisplayName("전체 유저 조회에 성공한다.")
+    void testGetAllUsers() throws Exception {
+        // given
+        List<UserResponse> response = Stream.of(UserFixture.USER_1, UserFixture.USER_2)
+                .map(UserResponse::from)
+                .toList();
+        given(userService.findAll()).willReturn(response);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/users"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(UserDocs.getAllUserDocument("user/get/all"));
     }
 }

@@ -6,6 +6,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 
@@ -25,6 +26,20 @@ public final class UserDocs {
                         fieldWithPath("name").description("이름"),
                         fieldWithPath("part").description("파트"),
                         fieldWithPath("teamName").description("팀 이름")
+                ));
+    }
+
+    public static RestDocumentationResultHandler getAllUserDocument(String identifier) {
+        return document(identifier,
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                        fieldWithPath("[].id").description("유저 식별자"),
+                        fieldWithPath("[].username").description("아이디"),
+                        fieldWithPath("[].email").description("이메일"),
+                        fieldWithPath("[].name").description("이름"),
+                        fieldWithPath("[].part").description("파트"),
+                        fieldWithPath("[].teamName").description("팀 이름")
                 ));
     }
 }
