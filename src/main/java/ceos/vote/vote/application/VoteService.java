@@ -41,12 +41,12 @@ public class VoteService {
                         () -> new BadRequestException(INVALID_PART_LEADER)
                 );
 
-        if (voteRepository.existsPartLeaderVotesByUsername(username)) {
-            throw new BadRequestException(ALREADY_VOTED);
-        }
-
         if (user.isDifferentPart(partLeader)) {
             throw new BadRequestException(VOTE_FOR_DIFFERENT_PART);
+        }
+
+        if (voteRepository.existsPartLeaderVotesByUsername(username)) {
+            throw new BadRequestException(ALREADY_VOTED);
         }
 
         PartLeaderVote vote = new PartLeaderVote(partLeader, user);
