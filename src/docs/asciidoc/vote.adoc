@@ -26,6 +26,8 @@ operation::vote/demoday/fail/duplicated[snippets='http-request,http-response']
 ==== 파트장
 ===== 성공
 operation::vote/part-leader/success[snippets='http-request,request-fields,http-response']
+===== 실패 - 로그인하지 않고 요청 전송
+operation::vote/part-leader/fail/notLoggedIn[snippets='http-request,http-response']
 ===== 실패 - 다른 파트 사람에게 투표
 operation::vote/part-leader/fail/differentPart[snippets='http-request,http-response']
 ===== 실패 - 한번 투표한 이후 중복으로 투표 시도

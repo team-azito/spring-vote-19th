@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ceos.vote.common.exception.BadRequestException;
 import ceos.vote.user.domain.Part;
+import ceos.vote.user.domain.TeamName;
 import ceos.vote.user.domain.User;
 import ceos.vote.user.domain.repository.UserRepository;
 import ceos.vote.vote.application.dto.response.DemodayVoteResponse;
@@ -19,6 +20,7 @@ import ceos.vote.vote.domain.PartLeaderVote;
 import ceos.vote.vote.domain.repository.VoteRepository;
 import ceos.vote.vote.presentation.dto.request.DemodayVoteCreateRequest;
 import ceos.vote.vote.presentation.dto.request.PartLeaderVoteCreateRequest;
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -69,10 +71,40 @@ public class VoteService {
     }
 
     public List<DemodayVoteResponse> getDemoDayVoteResult() {
-        return voteRepository.getDemodayVoteCount();
+        List<DemodayVoteResponse> responses = voteRepository.getDemodayVoteCount();
+        for (TeamName teamName : TeamName.values()) {
+            boolean found = false;
+            for (DemodayVoteResponse response: responses) {
+                if (response.name() == teamName) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                responses.add(new DemodayVoteResponse(teamName, 0));
+            }
+        }
+        return responses;
     }
 
     public List<PartLeaderVoteResponse> getPartLeaderVoteResult(Part part) {
-        return voteRepository.getPartLeaderVoteCount(part);
+        List<PartLeaderVoteResponse> responses = voteRepository.getPartLeaderVoteCount(part);
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if (!user.isSamePart(part)) {
+                continue;
+            }
+            boolean found = false;
+            for (PartLeaderVoteResponse response: responses) {
+                if (user.isSameUser(response.username())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                responses.add(new PartLeaderVoteResponse(user.getUsername(), user.getName(), 0));
+            }
+        }
+        return responses;
     }
 }

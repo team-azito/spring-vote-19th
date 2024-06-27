@@ -10,6 +10,6 @@ import lombok.ToString;
 
 
 public record DemodayVoteResponse(
-        TeamName teamName,
+        TeamName name,
         long voteCount
 ) {}
