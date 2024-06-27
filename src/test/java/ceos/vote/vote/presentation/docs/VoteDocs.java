@@ -22,7 +22,7 @@ public final class VoteDocs {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 responseFields(
-                        fieldWithPath("[].teamName").description("팀 이름"),
+                        fieldWithPath("[].name").description("팀 이름"),
                         fieldWithPath("[].voteCount").description("득표수")
                 ),
                 responseBody()
@@ -37,6 +37,7 @@ public final class VoteDocs {
                         parameterWithName("part").description("BACK_END 또는 FRONT_END")
                 ),
                 responseFields(
+                        fieldWithPath("[].username").description("파트장 로그인 아이디"),
                         fieldWithPath("[].name").description("파트장 후보 이름"),
                         fieldWithPath("[].voteCount").description("득표수")
                 ),

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import ceos.vote.common.domain.BaseTimeEntity;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -54,6 +55,13 @@ public class User extends BaseTimeEntity {
 
     public boolean isSameTeam(TeamName teamName) {
         return this.teamName == teamName;
+    }
 
+    public boolean isSameUser(String username) {
+        return this.username.equals(username);
+    }
+
+    public boolean isSamePart(Part part) {
+        return this.part == part;
     }
 }

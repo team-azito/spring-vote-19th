@@ -91,10 +91,10 @@ public class VoteControllerTest {
     void testGetPartLeaderVoteForBackendResult_Success() throws Exception {
         // given
         given(voteService.getPartLeaderVoteResult(Part.BACK_END)).willReturn(List.of(
-                new PartLeaderVoteResponse("이도현1", 10),
-                new PartLeaderVoteResponse("이도현3", 9),
-                new PartLeaderVoteResponse("이도현2", 7),
-                new PartLeaderVoteResponse("이도현4", 5)
+                new PartLeaderVoteResponse("test1", "이도현1", 10),
+                new PartLeaderVoteResponse("test2", "이도현3", 9),
+                new PartLeaderVoteResponse("test3", "이도현2", 7),
+                new PartLeaderVoteResponse("test4", "이도현4", 5)
         ));
 
         // when & then
@@ -111,10 +111,10 @@ public class VoteControllerTest {
     void testGetPartLeaderVoteForFrontendResult_Success() throws Exception {
         // given
         given(voteService.getPartLeaderVoteResult(Part.FRONT_END)).willReturn(List.of(
-                new PartLeaderVoteResponse("조유담1", 10),
-                new PartLeaderVoteResponse("조유담3", 9),
-                new PartLeaderVoteResponse("조유담2", 7),
-                new PartLeaderVoteResponse("조유담4", 5)
+                new PartLeaderVoteResponse("test1", "조유담1", 10),
+                new PartLeaderVoteResponse("test2", "조유담3", 9),
+                new PartLeaderVoteResponse("test3", "조유담2", 7),
+                new PartLeaderVoteResponse("test4", "조유담4", 5)
         ));
 
         // when & then
@@ -235,6 +235,23 @@ public class VoteControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andDo(VoteDocs.votePartLeaderDocument("vote/part-leader/success"));
+    }
+
+    @Test
+    @DisplayName("로그인하지 않았다면 파트장 투표에 실패한다.")
+    void testVotePartLeaderWhenNotLoggedIn_Fail() throws Exception {
+        // given
+        PartLeaderVoteCreateRequest request = new PartLeaderVoteCreateRequest("test");
+        doThrow(new InvalidJwtException(ExceptionCode.INVALID_JWT)).when(jwtUtil).validateJwt(any());
+
+        // when & then
+        mockMvc.perform(post("/api/v1/votes/part-leader")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(om.writeValueAsString(request)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("message").value(INVALID_JWT.getMessage()))
+                .andDo(print())
+                .andDo(VoteDocs.votePartLeaderDocument("vote/part-leader/fail/notLoggedIn"));
     }
 
     @Test

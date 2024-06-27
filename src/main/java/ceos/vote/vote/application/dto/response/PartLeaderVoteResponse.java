@@ -8,6 +8,7 @@ import lombok.Setter;
 
 
 public record PartLeaderVoteResponse (
+    String username,
     String name,
     long voteCount
 ) {}

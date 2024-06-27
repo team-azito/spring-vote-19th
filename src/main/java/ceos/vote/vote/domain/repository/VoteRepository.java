@@ -22,7 +22,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     List<DemodayVoteResponse> getDemodayVoteCount();
 
     @Query(value = """
-            select new ceos.vote.vote.application.dto.response.PartLeaderVoteResponse(v.partLeader.name, count(*))
+            select new ceos.vote.vote.application.dto.response.PartLeaderVoteResponse(v.partLeader.username, v.partLeader.name, count(*))
               from PartLeaderVote v 
              where v.partLeader.part = :part 
              group by v.partLeader 
